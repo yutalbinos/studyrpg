@@ -64,8 +64,8 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-space-mono)', 'monospace'],
-        serif: ['Georgia', 'Cambria', 'Times New Roman', 'serif'],
+        mono: ['monospace'],
+        serif: ['var(--font-medieval)', 'Georgia', 'Cambria', 'serif'],
       },
       borderRadius: {
         lg: 'var(--radius)',

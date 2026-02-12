@@ -1,18 +1,20 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter, Space_Mono } from 'next/font/google'
+import { Inter, MedievalSharp } from 'next/font/google'
 
 import './globals.css'
 
 const _inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
-const _spaceMono = Space_Mono({ weight: ['400', '700'], subsets: ['latin'], variable: '--font-space-mono' })
+const _medieval = MedievalSharp({ weight: '400', subsets: ['latin'], variable: '--font-medieval' })
 
 export const metadata: Metadata = {
-  title: 'QuestWork - Gamified Productivity',
-  description: 'Transforme ton travail en aventure. Gagne de l\'XP, monte de niveau, et deviens le boss de ta productivite.',
+  title: 'StudyRPG - Transforme tes etudes en aventure',
+  description: 'Gagne de l\'XP, monte de niveau, equipe-toi et combats des mobs. Transforme ta productivite en quete heroique.',
 }
 
 export const viewport: Viewport = {
-  themeColor: '#1a1f2e',
+  themeColor: '#1a1510',
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export default function RootLayout({
@@ -22,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className={`${_inter.variable} ${_spaceMono.variable} font-sans antialiased`} suppressHydrationWarning>{children}</body>
+      <body className={`${_inter.variable} ${_medieval.variable} font-sans antialiased rpg-parchment`} suppressHydrationWarning>{children}</body>
     </html>
   )
 }
