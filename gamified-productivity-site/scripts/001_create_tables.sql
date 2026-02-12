@@ -33,12 +33,18 @@ CREATE TABLE IF NOT EXISTS public.profiles (
 
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "profiles_select_own" ON public.profiles FOR SELECT USING (auth.uid() = id);
-CREATE POLICY "profiles_insert_own" ON public.profiles FOR INSERT WITH CHECK (auth.uid() = id);
-CREATE POLICY "profiles_update_own" ON public.profiles FOR UPDATE USING (auth.uid() = id);
-CREATE POLICY "profiles_delete_own" ON public.profiles FOR DELETE USING (auth.uid() = id);
--- Allow reading other profiles for leaderboard/friends
+-- Allow reading all profiles for leaderboard/friends
+DROP POLICY IF EXISTS "profiles_select_public" ON public.profiles;
 CREATE POLICY "profiles_select_public" ON public.profiles FOR SELECT USING (TRUE);
+
+DROP POLICY IF EXISTS "profiles_insert_own" ON public.profiles;
+CREATE POLICY "profiles_insert_own" ON public.profiles FOR INSERT WITH CHECK (auth.uid() = id);
+
+DROP POLICY IF EXISTS "profiles_update_own" ON public.profiles;
+CREATE POLICY "profiles_update_own" ON public.profiles FOR UPDATE USING (auth.uid() = id);
+
+DROP POLICY IF EXISTS "profiles_delete_own" ON public.profiles;
+CREATE POLICY "profiles_delete_own" ON public.profiles FOR DELETE USING (auth.uid() = id);
 
 -- ============================================================================
 -- FRIENDS TABLE
@@ -54,9 +60,13 @@ CREATE TABLE IF NOT EXISTS public.friends (
 
 ALTER TABLE public.friends ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "friends_select" ON public.friends;
 CREATE POLICY "friends_select" ON public.friends FOR SELECT USING (auth.uid() = user_id OR auth.uid() = friend_id);
+DROP POLICY IF EXISTS "friends_insert" ON public.friends;
 CREATE POLICY "friends_insert" ON public.friends FOR INSERT WITH CHECK (auth.uid() = user_id);
+DROP POLICY IF EXISTS "friends_update" ON public.friends;
 CREATE POLICY "friends_update" ON public.friends FOR UPDATE USING (auth.uid() = user_id OR auth.uid() = friend_id);
+DROP POLICY IF EXISTS "friends_delete" ON public.friends;
 CREATE POLICY "friends_delete" ON public.friends FOR DELETE USING (auth.uid() = user_id OR auth.uid() = friend_id);
 
 -- ============================================================================
@@ -73,8 +83,11 @@ CREATE TABLE IF NOT EXISTS public.dungeon_invites (
 
 ALTER TABLE public.dungeon_invites ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "dungeon_invites_select" ON public.dungeon_invites;
 CREATE POLICY "dungeon_invites_select" ON public.dungeon_invites FOR SELECT USING (auth.uid() = host_id OR auth.uid() = invited_id);
+DROP POLICY IF EXISTS "dungeon_invites_insert" ON public.dungeon_invites;
 CREATE POLICY "dungeon_invites_insert" ON public.dungeon_invites FOR INSERT WITH CHECK (auth.uid() = host_id);
+DROP POLICY IF EXISTS "dungeon_invites_update" ON public.dungeon_invites;
 CREATE POLICY "dungeon_invites_update" ON public.dungeon_invites FOR UPDATE USING (auth.uid() = host_id OR auth.uid() = invited_id);
 
 -- ============================================================================
